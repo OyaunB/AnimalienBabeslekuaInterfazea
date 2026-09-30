@@ -17,6 +17,13 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
+        // Lehenik login pantaila erakusten da.
+        // Datuak ongi badaude, interfaze nagusia irekitzen da.
+        Login.erakutsi(stage, () -> erakutsiPrintzipala(stage));
+    }
+
+    // Interfaze nagusia (animalien kudeaketa)
+    private void erakutsiPrintzipala(Stage stage) {
 
         // Fitxategian gordetako animaliak kargatu
         ObservableList<Animalia> animaliak =
@@ -220,6 +227,8 @@ public class Main extends Application {
 
         stage.setTitle("Animalien Babeslekua");
         stage.setScene(new Scene(root, 850, 760));
+        stage.sizeToScene();       // Leihoa pantaila berriaren tamainara egokitu
+        stage.centerOnScreen();
         stage.show();
     }
 
