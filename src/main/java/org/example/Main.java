@@ -181,7 +181,7 @@ public class Main extends Application {
                 pisua = Double.parseDouble(txtPisua.getText().trim().replace(',', '.'));
                 if (adina < 0 || pisua <= 0) throw new NumberFormatException();
             } catch (NumberFormatException ex) {
-                erakutsi(mezua, "Adinak eta pisuak zenbaki positiboak izan behar dute.", true);
+                erakutsi(mezua, "Adinak eta pisuak zenbaki positiboak eta osoak izan behar dute.", true);
                 return;
             }
 
