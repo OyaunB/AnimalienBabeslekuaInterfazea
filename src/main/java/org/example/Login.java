@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 
             // ---------- Osagaiak ----------
             Label titulua = new Label("Animalien Babeslekua");
+            Label mezua = new Label("Sartu admin, pasahitza:1234");
             titulua.setStyle("-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2e7d32;");
 
             TextField txtErabiltzailea = new TextField();
@@ -53,7 +54,7 @@ import javafx.stage.Stage;
             txtPasahitza.setOnAction(e -> egiaztatu.run());
 
             // ---------- Diseinua (VBox erdian) ----------
-            VBox root = new VBox(12, titulua, txtErabiltzailea, txtPasahitza, btnSartu, errorea);
+            VBox root = new VBox(12, titulua, mezua, txtErabiltzailea, txtPasahitza, btnSartu, errorea);
             root.setAlignment(Pos.CENTER);
             root.setPadding(new Insets(30));
 
