@@ -103,7 +103,7 @@ public class Main extends Application {
         Label mezua = new Label();
 
         // ---------- MENUA (left) ----------
-        Button btnZerrenda = new Button("Animalien zerrenda");
+        Button btnZerrenda = new Button("AUKERATU");
         Button btnBerria = new Button("Adoptatu");
         Button btnTxertatu = new Button("Txertatu");
         Button btnEzabatu = new Button("Ezabatu");
@@ -122,20 +122,34 @@ public class Main extends Application {
         btnBerria.setOnAction(e -> {
             Animalia hautatua = taula.getSelectionModel().getSelectedItem();
             if (hautatua == null) {
-                erakutsi(mezua, "Aukeratu taulan adoptatu nahi duzun animalia.", true);
-                return;
-            }
-            if (hautatua.isAdoptatuta()) {
-                erakutsi(mezua, hautatua.getIzena() + " dagoeneko adoptatuta dago.", true);
+                erakutsi(mezua, "Aukeratu taulan animalia bat.", true);
                 return;
             }
             try {
-                hautatua.adoptatu();
+                boolean adoptatutaZegoen = hautatua.isAdoptatuta();
+                hautatua.aldatuAdopzioa();
                 AnimaliaFitxategia.gordeGuztiak(animaliak);
                 taula.refresh();
-                erakutsi(mezua, hautatua.getIzena() + " adoptatu da.", false);
+                // Forzar al botón a recalcular su texto
+                btnBerria.setText(hautatua.isAdoptatuta() ? "Desadoptatu" : "Adoptatu");
+                if (adoptatutaZegoen) {
+                    erakutsi(mezua, hautatua.getIzena() + " desadoptatu da.", false);
+                } else {
+                    erakutsi(mezua, hautatua.getIzena() + " adoptatu da.", false);
+                }
             } catch (IOException ex) {
                 erakutsi(mezua, "Errorea fitxategia eguneratzean.", true);
+            }
+        });
+
+        // >>> HAMEN DOA LISTENER -a <<< EGOERAREN ARABERA aldatuko da hasierako menuan
+        taula.getSelectionModel().selectedItemProperty().addListener((obs, viejo, nuevo) -> {
+            if (nuevo == null) {
+                btnBerria.setText("Adoptatu");
+                btnTxertatu.setText("Txertatu");
+            } else {
+                btnBerria.setText(nuevo.isAdoptatuta() ? "Desadoptatu" : "Adoptatu");
+                btnTxertatu.setText(nuevo.isTxertatuta() ? "Kendu" : "Txertatu");
             }
         });
 
@@ -173,6 +187,7 @@ public class Main extends Application {
                 hautatua.aldatuTxertatuta();
                 AnimaliaFitxategia.gordeGuztiak(animaliak);
                 taula.refresh();
+                btnTxertatu.setText(hautatua.isTxertatuta() ? "Kendu" : "Txertatu");
                 String egoera = hautatua.isTxertatuta() ? "txertatuta" : "txertatu gabe";
                 erakutsi(mezua, hautatua.getIzena() + " orain " + egoera + " dago.", false);
             } catch (IOException ex) {
