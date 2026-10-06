@@ -193,7 +193,8 @@ public class Main extends Application {
                     pisua,
                     chkTxertatua.isSelected(),
                     true,
-                    txtOharrak.getText());
+                    txtOharrak.getText(),
+                    "");
 
             // 3. Fitxategian gorde eta taulan gehitu
             try {

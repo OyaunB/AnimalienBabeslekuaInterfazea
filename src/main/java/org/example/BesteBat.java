@@ -3,8 +3,8 @@ package org.example;
 public class BesteBat extends Animalia {
 
     public BesteBat(String izena, int adina, double pisua,
-            boolean txertatuta, boolean eskuragarri, String oharrak) {
-        super(izena, adina, pisua, txertatuta, eskuragarri, oharrak);
+            boolean txertatuta, boolean eskuragarri, String oharrak,String argazkia) {
+        super(izena, adina, pisua, txertatuta, eskuragarri, oharrak, argazkia);
     }
 
     @Override
