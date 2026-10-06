@@ -106,10 +106,12 @@ public class Main extends Application {
         Button btnZerrenda = new Button("Animalien zerrenda");
         Button btnBerria = new Button("Adoptatu");
         Button btnEzabatu = new Button("Ezabatu");
+        Button btnIkusi = new Button("Ikusi");
         Button btnIrten = new Button("Irten");
         btnZerrenda.setMaxWidth(Double.MAX_VALUE);
         btnBerria.setMaxWidth(Double.MAX_VALUE);
         btnEzabatu.setMaxWidth(Double.MAX_VALUE);
+        btnIkusi.setMaxWidth(Double.MAX_VALUE);
         btnIrten.setMaxWidth(Double.MAX_VALUE);
         btnZerrenda.setOnAction(e -> taula.requestFocus());
         btnIrten.setOnAction(e -> stage.close());
@@ -157,8 +159,17 @@ public class Main extends Application {
                 erakutsi(mezua, "Errorea fitxategia eguneratzean.", true);
             }
         });
+        //Ikusi botoia
+        btnIkusi.setOnAction(e -> {
+            Animalia hautatua = taula.getSelectionModel().getSelectedItem();
+            if (hautatua == null) {
+                erakutsi(mezua, "Aukeratu taulan ikusi nahi duzun animalia.", true);
+                return;
+            }
+            AnimaliaXehetasuna.erakutsi(hautatua, animaliak, taula::refresh);
+        });
 
-        VBox menua = new VBox(10, btnZerrenda, btnBerria, btnEzabatu, btnIrten);
+        VBox menua = new VBox(10, btnZerrenda, btnBerria, btnEzabatu, btnIkusi, btnIrten);
         menua.setPadding(new Insets(15));
         menua.setPrefWidth(170);
         menua.setStyle("-fx-background-color: #e8f5e9;");
