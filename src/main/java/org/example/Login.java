@@ -58,6 +58,14 @@ import javafx.stage.Stage;
             root.setAlignment(Pos.CENTER);
             root.setPadding(new Insets(30));
 
+            // Fondoa: irudia leiho osoan zehar
+            root.setStyle(
+                    "-fx-background-image: url('/img/fondo.jpg');" +
+                            "-fx-background-size: cover;" +
+                            "-fx-background-position: center center;" +
+                            "-fx-background-repeat: no-repeat;"
+            );
+
             stage.setTitle("Login");
             stage.setScene(new Scene(root, 380, 320));
             stage.show();
