@@ -58,6 +58,8 @@ public class AnimaliaXehetasuna {
         TextField txtPisua = new TextField(String.valueOf(animalia.getPisua()));
         CheckBox chkTxertatua = new CheckBox("Txertatuta dago");
         chkTxertatua.setSelected(animalia.isTxertatuta());
+        CheckBox chkAdoptatuta = new CheckBox("Adoptatuta dago");
+        chkAdoptatuta.setSelected(animalia.isAdoptatuta());
         TextArea txtOharrak = new TextArea(animalia.getOharrak());
         txtOharrak.setPrefRowCount(4);
 
@@ -70,7 +72,8 @@ public class AnimaliaXehetasuna {
         datuak.addRow(2, new Label("Adina:"), txtAdina);
         datuak.addRow(3, new Label("Pisua:"), txtPisua);
         datuak.addRow(4, new Label(""), chkTxertatua);
-        datuak.addRow(5, new Label("Oharrak:"), txtOharrak);
+        datuak.addRow(5, new Label(""), chkAdoptatuta);
+        datuak.addRow(6, new Label("Oharrak:"), txtOharrak);
         GridPane.setHgrow(txtOharrak, Priority.ALWAYS);
 
         // ---------- Mezua ----------
@@ -97,6 +100,10 @@ public class AnimaliaXehetasuna {
                 animalia.setPisua(pisua);
                 animalia.setTxertatuta(chkTxertatua.isSelected());
                 animalia.setOharrak(txtOharrak.getText());
+                // ALDAKETA BERRIA: dopzio-egoera aldatzeko
+                if (animalia.isAdoptatuta() != chkAdoptatuta.isSelected()) {
+                    animalia.aldatuAdopzioa();
+                }
 
                 AnimaliaFitxategia.gordeGuztiak(zerrenda);
                 eguneratu.run();

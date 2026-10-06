@@ -105,11 +105,13 @@ public class Main extends Application {
         // ---------- MENUA (left) ----------
         Button btnZerrenda = new Button("Animalien zerrenda");
         Button btnBerria = new Button("Adoptatu");
+        Button btnTxertatu = new Button("Txertatu");
         Button btnEzabatu = new Button("Ezabatu");
         Button btnIkusi = new Button("Ikusi");
         Button btnIrten = new Button("Irten");
         btnZerrenda.setMaxWidth(Double.MAX_VALUE);
         btnBerria.setMaxWidth(Double.MAX_VALUE);
+        btnTxertatu.setMaxWidth(Double.MAX_VALUE);
         btnEzabatu.setMaxWidth(Double.MAX_VALUE);
         btnIkusi.setMaxWidth(Double.MAX_VALUE);
         btnIrten.setMaxWidth(Double.MAX_VALUE);
@@ -159,6 +161,25 @@ public class Main extends Application {
                 erakutsi(mezua, "Errorea fitxategia eguneratzean.", true);
             }
         });
+
+        //Txertatu botoia
+        btnTxertatu.setOnAction(e -> {
+            Animalia hautatua = taula.getSelectionModel().getSelectedItem();
+            if (hautatua == null) {
+                erakutsi(mezua, "Aukeratu taulan txertatu nahi duzun animalia.", true);
+                return;
+            }
+            try {
+                hautatua.aldatuTxertatuta();
+                AnimaliaFitxategia.gordeGuztiak(animaliak);
+                taula.refresh();
+                String egoera = hautatua.isTxertatuta() ? "txertatuta" : "txertatu gabe";
+                erakutsi(mezua, hautatua.getIzena() + " orain " + egoera + " dago.", false);
+            } catch (IOException ex) {
+                erakutsi(mezua, "Errorea fitxategia eguneratzean.", true);
+            }
+        });
+
         //Ikusi botoia
         btnIkusi.setOnAction(e -> {
             Animalia hautatua = taula.getSelectionModel().getSelectedItem();
@@ -169,7 +190,7 @@ public class Main extends Application {
             AnimaliaXehetasuna.erakutsi(hautatua, animaliak, taula::refresh);
         });
 
-        VBox menua = new VBox(10, btnZerrenda, btnBerria, btnEzabatu, btnIkusi, btnIrten);
+        VBox menua = new VBox(10, btnZerrenda, btnBerria, btnEzabatu, btnIkusi,btnTxertatu, btnIrten);
         menua.setPadding(new Insets(15));
         menua.setPrefWidth(170);
         menua.setStyle("-fx-background-color: #e8f5e9;");

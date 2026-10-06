@@ -47,6 +47,14 @@ public abstract class Animalia {
         this.eskuragarri = false;
     }
 
+    public void aldatuTxertatuta() {
+        this.txertatuta = !this.txertatuta;
+    }
+
+    public void aldatuAdopzioa() {
+        this.eskuragarri = !this.eskuragarri;
+    }
+
     // ---------- Espeziearen arabera objektu egokia sortzen du ----------
     public static Animalia sortu(String espezia, String izena, int adina, double pisua,
                                  boolean txertatuta, boolean eskuragarri, String oharrak, String argazkia) {
