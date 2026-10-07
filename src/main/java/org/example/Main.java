@@ -10,6 +10,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+//Argazkia columnan agertu dadin, beheko funtzionalitate jauek behar dira
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import java.io.File;
 
 import java.io.IOException;
 
@@ -80,6 +85,50 @@ public class Main extends Application {
         taula.setPrefHeight(200);
         taula.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
 
+        //LEHEN KOLUMNA; argazkia
+        // ---- Columna de imagen (miniatura) ----
+        TableColumn<Animalia, Animalia> colIrudia = new TableColumn<>("Irudia");
+        colIrudia.setPrefWidth(70);
+        colIrudia.setSortable(false);
+
+                    // 1) Qué dato saca de cada fila: el objeto Animalia entero
+        colIrudia.setCellValueFactory(c ->
+                new SimpleObjectProperty<>(c.getValue()));
+
+                    // 2) Cómo dibuja la celda: un ImageView con la miniatura
+        colIrudia.setCellFactory(col -> new TableCell<Animalia, Animalia>() {
+            private final ImageView iv = new ImageView();
+
+            {
+                iv.setFitWidth(48);
+                iv.setFitHeight(48);
+                iv.setPreserveRatio(true);
+            }
+
+            @Override
+            protected void updateItem(Animalia animalia, boolean empty) {
+                super.updateItem(animalia, empty);
+
+                // Sin contenido: no dibujamos nada
+                if (empty || animalia == null
+                        || animalia.getArgazkia() == null
+                        || animalia.getArgazkia().isBlank()) {
+                    setGraphic(null);
+                    return;
+                }
+
+                File f = new File(animalia.getArgazkia());
+                if (!f.exists()) {
+                    setGraphic(null);
+                    return;
+                }
+
+                iv.setImage(new Image(f.toURI().toString()));
+                setGraphic(iv);
+            }
+        });
+        //__________________________
+        //__________________________
         TableColumn<Animalia, String> colIzena = new TableColumn<>("Izena");
         colIzena.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getIzena()));
         TableColumn<Animalia, String> colEspezia = new TableColumn<>("Espezia");
@@ -94,7 +143,7 @@ public class Main extends Application {
         TableColumn<Animalia, String> colAdoptatuta = new TableColumn<>("Adoptatuta");
         colAdoptatuta.setCellValueFactory(c ->
                 new SimpleStringProperty(c.getValue().isAdoptatuta() ? "Bai" : "Ez"));
-        taula.getColumns().addAll(colIzena, colEspezia, colAdina, colPisua, colTxertatua, colAdoptatuta);
+        taula.getColumns().addAll(colIrudia, colIzena, colEspezia, colAdina, colPisua, colTxertatua, colAdoptatuta);
 
         VBox erdikoa = new VBox(formularioa, taula);
         erdikoa.setPadding(new Insets(0, 20, 10, 0));

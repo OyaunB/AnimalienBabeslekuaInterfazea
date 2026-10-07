@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import javafx.scene.layout.Priority;
 
 public class AnimaliaXehetasuna {
 
@@ -175,6 +176,16 @@ public class AnimaliaXehetasuna {
         // ---------- Diseinua ----------
         HBox goikoa = new HBox(20, irudiPanel, datuak);
         goikoa.setPadding(new Insets(15));
+
+        //Datuak ongi ikusi daitezen: izena: ____ , pisua: _____
+        // Restricciones de columna: la 0 con ancho mínimo, la 1 que crezca
+        ColumnConstraints colEtiketak = new ColumnConstraints();
+        colEtiketak.setMinWidth(90);         // suficiente para "Oharrak:"
+
+        ColumnConstraints colBalioak = new ColumnConstraints();
+        colBalioak.setHgrow(Priority.ALWAYS);
+
+        datuak.getColumnConstraints().addAll(colEtiketak, colBalioak);
 
         VBox root = new VBox(10, goikoa, mezua, botoiak);
         root.setPadding(new Insets(10));
