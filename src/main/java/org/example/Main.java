@@ -145,8 +145,9 @@ public class Main extends Application {
                 new SimpleStringProperty(c.getValue().isAdoptatuta() ? "Bai" : "Ez"));
         taula.getColumns().addAll(colIrudia, colIzena, colEspezia, colAdina, colPisua, colTxertatua, colAdoptatuta);
 
-        VBox erdikoa = new VBox(formularioa, taula);
-        erdikoa.setPadding(new Insets(0, 20, 10, 0));
+        Separator separadorea = new Separator();
+        VBox erdikoa = new VBox(15, taula,separadorea, formularioa);
+        erdikoa.setPadding(new Insets(10, 20, 10, 0));
         VBox.setVgrow(taula, Priority.ALWAYS);
 
         Label mezua = new Label();
