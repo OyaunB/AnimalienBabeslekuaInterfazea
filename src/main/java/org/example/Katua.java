@@ -11,4 +11,9 @@ public class Katua extends Animalia {
     public String getEspezia() {
         return "Katua";
     }
+
+    @Override
+    public String eginSoinua() {
+        return  getEspezia() +"-k miau egiten du";
+    }
 }

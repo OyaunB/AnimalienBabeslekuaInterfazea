@@ -11,4 +11,9 @@ public class BesteBat extends Animalia {
     public String getEspezia() {
         return "Beste bat";
     }
+
+    @Override
+    public String eginSoinua() {
+        return getEspezia() +"-k ez dakigu zer zarata egiten duen";
+    }
 }

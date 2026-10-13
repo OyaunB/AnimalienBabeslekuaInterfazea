@@ -11,4 +11,9 @@ public class Txakurra extends Animalia {
     public String getEspezia() {
         return "Txakurra";
     }
+
+    @Override
+    public String eginSoinua() {
+        return getEspezia() +"-k Uau- uau egiten du";
+    }
 }

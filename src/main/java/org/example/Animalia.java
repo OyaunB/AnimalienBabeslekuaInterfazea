@@ -92,4 +92,9 @@ public abstract class Animalia {
     private static String garbitu(String testua) {
         return testua.replace(";", ",").replace("\r", "").replace("\n", "\\n");
     }
+    //egin soinua
+// egIn soinua (abstract, porque cada subclase devuelve el suyo)
+    public abstract String eginSoinua();
 }
+
+

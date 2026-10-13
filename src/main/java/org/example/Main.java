@@ -80,77 +80,104 @@ public class Main extends Application {
         GridPane.setHgrow(txtOharrak, Priority.ALWAYS);
         txtIzena.setMaxWidth(Double.MAX_VALUE);
 
-        // ---------- TAULA ----------
+// ---------- Labels de mensajes ----------
+        Label mezua = new Label();
+        Label soinuMezua = new Label();
+        soinuMezua.setStyle("-fx-text-fill: #2e7d32; -fx-font-style: italic;");
+
+// ---------- TAULA ----------
         TableView<Animalia> taula = new TableView<>(animaliak);
         taula.setPrefHeight(200);
         taula.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN);
 
-        //LEHEN KOLUMNA; argazkia
         // ---- Columna de imagen (miniatura) ----
         TableColumn<Animalia, Animalia> colIrudia = new TableColumn<>("Irudia");
         colIrudia.setPrefWidth(70);
         colIrudia.setSortable(false);
-
-                    // 1) Qué dato saca de cada fila: el objeto Animalia entero
         colIrudia.setCellValueFactory(c ->
                 new SimpleObjectProperty<>(c.getValue()));
-
-                    // 2) Cómo dibuja la celda: un ImageView con la miniatura
         colIrudia.setCellFactory(col -> new TableCell<Animalia, Animalia>() {
             private final ImageView iv = new ImageView();
-
             {
                 iv.setFitWidth(48);
                 iv.setFitHeight(48);
                 iv.setPreserveRatio(true);
             }
-
             @Override
             protected void updateItem(Animalia animalia, boolean empty) {
                 super.updateItem(animalia, empty);
-
-                // Sin contenido: no dibujamos nada
                 if (empty || animalia == null
                         || animalia.getArgazkia() == null
                         || animalia.getArgazkia().isBlank()) {
                     setGraphic(null);
                     return;
                 }
-
                 File f = new File(animalia.getArgazkia());
                 if (!f.exists()) {
                     setGraphic(null);
                     return;
                 }
-
                 iv.setImage(new Image(f.toURI().toString()));
                 setGraphic(iv);
             }
         });
         //__________________________
         //__________________________
+// ---- Columnas de datos ----
         TableColumn<Animalia, String> colIzena = new TableColumn<>("Izena");
         colIzena.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getIzena()));
+
         TableColumn<Animalia, String> colEspezia = new TableColumn<>("Espezia");
         colEspezia.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getEspezia()));
+
         TableColumn<Animalia, String> colAdina = new TableColumn<>("Adina");
         colAdina.setCellValueFactory(c -> new SimpleStringProperty(String.valueOf(c.getValue().getAdina())));
+
         TableColumn<Animalia, String> colPisua = new TableColumn<>("Pisua (kg)");
         colPisua.setCellValueFactory(c -> new SimpleStringProperty(String.valueOf(c.getValue().getPisua())));
+
         TableColumn<Animalia, String> colTxertatua = new TableColumn<>("Txertatuta");
         colTxertatua.setCellValueFactory(c ->
                 new SimpleStringProperty(c.getValue().isTxertatuta() ? "Bai" : "Ez"));
+
         TableColumn<Animalia, String> colAdoptatuta = new TableColumn<>("Adoptatuta");
         colAdoptatuta.setCellValueFactory(c ->
                 new SimpleStringProperty(c.getValue().isAdoptatuta() ? "Bai" : "Ez"));
-        taula.getColumns().addAll(colIrudia, colIzena, colEspezia, colAdina, colPisua, colTxertatua, colAdoptatuta);
+
+        // ---- Columna del botón "Egin soinua" ----
+        TableColumn<Animalia, Void> colSoinua = new TableColumn<>("Soinua");
+        colSoinua.setSortable(false);
+        colSoinua.setMinWidth(130);
+        colSoinua.setCellFactory(col -> new TableCell<Animalia, Void>() {
+            private final Button btnSoinua = new Button("Egin soinua");
+
+            {
+                btnSoinua.setOnAction(e -> {
+                    Animalia a = getTableView().getItems().get(getIndex());
+                    if (a != null) {
+                        soinuMezua.setText(a.getIzena() + ": " + a.eginSoinua());
+                    }
+                });
+            }
+
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : btnSoinua);
+            }
+        });
+
+
+
+        // ---- Añadirlas TODAS de una vez ----
+        taula.getColumns().addAll(colIrudia, colIzena, colEspezia, colAdina,
+                colPisua, colTxertatua, colAdoptatuta, colSoinua);
 
         Separator separadorea = new Separator();
-        VBox erdikoa = new VBox(15, taula,separadorea, formularioa);
+        VBox erdikoa = new VBox(15, taula, soinuMezua, separadorea, formularioa);
         erdikoa.setPadding(new Insets(10, 20, 10, 0));
         VBox.setVgrow(taula, Priority.ALWAYS);
 
-        Label mezua = new Label();
 
         // ---------- MENUA (left) ----------
         Button btnZerrenda = new Button("AUKERATU");

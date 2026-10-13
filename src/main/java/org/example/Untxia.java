@@ -11,4 +11,9 @@ public class Untxia extends Animalia {
     public String getEspezia() {
         return "Untxia";
     }
+
+    @Override
+    public String eginSoinua() {
+        return getEspezia() + "-k grhh grhh egiten du";
+    }
 }
