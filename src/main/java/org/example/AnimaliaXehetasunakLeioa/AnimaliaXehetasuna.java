@@ -1,4 +1,4 @@
-package org.example;
+package org.example.AnimaliaXehetasunakLeioa;
 
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -18,6 +18,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import javafx.scene.layout.Priority;
+import org.example.Animalia;
+import org.example.FitxategiaCSV.AnimaliaFitxategia;
 
 public class AnimaliaXehetasuna {
 
@@ -40,7 +42,7 @@ public class AnimaliaXehetasuna {
         irudiView.setFitHeight(240);
         irudiView.setPreserveRatio(true);
 
-        Label placeholder = new Label("Irudiarik ez");
+        Label placeholder = new Label("Irudirik ez");
         placeholder.setPrefSize(240, 240);
         placeholder.setAlignment(Pos.CENTER);
         placeholder.setStyle("-fx-text-fill: #888; -fx-border-color: #ccc; -fx-border-width: 1;");

@@ -1,4 +1,6 @@
-package org.example;
+package org.example.FitxategiaCSV;
+
+import org.example.Animalia;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

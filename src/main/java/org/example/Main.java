@@ -14,6 +14,10 @@ import javafx.stage.Stage;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import org.example.AnimaliaXehetasunakLeioa.AnimaliaXehetasuna;
+import org.example.FitxategiaCSV.AnimaliaFitxategia;
+import org.example.Login.Login;
+
 import java.io.File;
 
 import java.io.IOException;

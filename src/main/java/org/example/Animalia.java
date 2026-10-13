@@ -1,5 +1,10 @@
 package org.example;
 
+import org.example.Klaseak.BesteBat;
+import org.example.Klaseak.Katua;
+import org.example.Klaseak.Txakurra;
+import org.example.Klaseak.Untxia;
+
 public abstract class Animalia {
 
     private final String izena;
