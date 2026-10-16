@@ -6,7 +6,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,24 +14,23 @@ import org.example.model.Animalia;
 
 import java.io.File;
 
-public class MainView {
+public class MainView extends BorderPane {
 
     // ---------- Datuak ----------
     private final ObservableList<Animalia> animaliak = FXCollections.observableArrayList();
 
-    // ---------- Osagai nagusiak ----------
-    private final BorderPane root = new BorderPane();
+    // ---------- Taula ----------
     private final TableView<Animalia> taula = new TableView<>(animaliak);
 
+    // ---------- Formularioa ----------
     private final TextField txtIzena = new TextField();
     private final ComboBox<String> cmbEspezia = new ComboBox<>();
     private final TextField txtAdina = new TextField();
     private final TextField txtPisua = new TextField();
     private final CheckBox chkTxertatua = new CheckBox("Txertatuta dago");
     private final TextArea txtOharrak = new TextArea();
-    private final PasswordField txtPasahitza = new PasswordField();
 
-    private final Button btnZerrenda = new Button("AUKERATU");
+    // ---------- Botoiak ----------
     private final Button btnBerria = new Button("Adoptatu");
     private final Button btnTxertatu = new Button("Txertatu");
     private final Button btnEzabatu = new Button("Ezabatu");
@@ -41,10 +39,12 @@ public class MainView {
     private final Button btnGorde = new Button("Gorde");
     private final Button btnGarbitu = new Button("Garbitu");
 
+    // ---------- Mezuak ----------
     private final Label mezua = new Label();
     private final Label soinuMezua = new Label();
 
     public MainView() {
+
         // ---------- GOIALDEA ----------
         Label titulua = new Label("Animalien Babeslekua");
         titulua.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white;");
@@ -61,7 +61,6 @@ public class MainView {
         txtPisua.setPromptText("Pisua (kg)");
         txtOharrak.setPromptText("Oharrak...");
         txtOharrak.setPrefRowCount(3);
-        txtPasahitza.setPromptText("Langilearen pasahitza");
 
         GridPane formularioa = new GridPane();
         formularioa.setHgap(10);
@@ -73,12 +72,11 @@ public class MainView {
         formularioa.addRow(3, new Label("Pisua:"), txtPisua);
         formularioa.addRow(4, new Label(""), chkTxertatua);
         formularioa.addRow(5, new Label("Oharrak:"), txtOharrak);
-        formularioa.addRow(6, new Label("Pasahitza:"), txtPasahitza);
         GridPane.setHgrow(txtIzena, Priority.ALWAYS);
         GridPane.setHgrow(txtOharrak, Priority.ALWAYS);
         txtIzena.setMaxWidth(Double.MAX_VALUE);
 
-        // ---------- MEZUAK ----------
+        // ---------- Mezuak ----------
         soinuMezua.setStyle("-fx-text-fill: #2e7d32; -fx-font-style: italic;");
 
         // ---------- TAULA ----------
@@ -92,12 +90,10 @@ public class MainView {
         VBox.setVgrow(taula, Priority.ALWAYS);
 
         // ---------- MENUA ----------
-        for (Button b : new Button[]{btnZerrenda, btnBerria, btnTxertatu,
-                btnEzabatu, btnIkusi, btnIrten}) {
+        for (Button b : new Button[]{btnBerria, btnTxertatu, btnEzabatu, btnIkusi, btnIrten}) {
             b.setMaxWidth(Double.MAX_VALUE);
         }
-        VBox menua = new VBox(10, btnZerrenda, btnBerria, btnEzabatu,
-                btnIkusi, btnTxertatu, btnIrten);
+        VBox menua = new VBox(10, btnBerria, btnEzabatu, btnIkusi, btnTxertatu, btnIrten);
         menua.setPadding(new Insets(15));
         menua.setPrefWidth(170);
         menua.setStyle("-fx-background-color: #e8f5e9;");
@@ -109,13 +105,13 @@ public class MainView {
         behekoa.setPadding(new Insets(12, 20, 12, 20));
         behekoa.setStyle("-fx-background-color: #f5f5f5;");
 
-        // ---------- ROOT ----------
-        root.setTop(goikoa);
-        root.setLeft(menua);
-        root.setCenter(erdikoa);
-        root.setBottom(behekoa);
+        // ---------- THIS (¡LA CLAVE DEL CAMBIO!) ----------
+        this.setTop(goikoa);
+        this.setLeft(menua);
+        this.setCenter(erdikoa);
+        this.setBottom(behekoa);
 
-        // ---------- Hautapenaren listener-a (UI-arena, ez negozioa) ----------
+        // ---------- Listener de la selección ----------
         taula.getSelectionModel().selectedItemProperty().addListener((obs, old, neu) -> {
             if (neu == null) {
                 btnBerria.setText("Adoptatu");
@@ -154,7 +150,6 @@ public class MainView {
             }
         });
 
-        // Datuen zutabeak
         TableColumn<Animalia, String> colIzena = new TableColumn<>("Izena");
         colIzena.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().getIzena()));
 
@@ -168,12 +163,13 @@ public class MainView {
         colPisua.setCellValueFactory(c -> new SimpleStringProperty(String.valueOf(c.getValue().getPisua())));
 
         TableColumn<Animalia, String> colTxertatua = new TableColumn<>("Txertatuta");
-        colTxertatua.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().isTxertatuta() ? "Bai" : "Ez"));
+        colTxertatua.setCellValueFactory(c ->
+                new SimpleStringProperty(c.getValue().isTxertatuta() ? "Bai" : "Ez"));
 
         TableColumn<Animalia, String> colAdoptatuta = new TableColumn<>("Adoptatuta");
-        colAdoptatuta.setCellValueFactory(c -> new SimpleStringProperty(c.getValue().isAdoptatuta() ? "Bai" : "Ez"));
+        colAdoptatuta.setCellValueFactory(c ->
+                new SimpleStringProperty(c.getValue().isAdoptatuta() ? "Bai" : "Ez"));
 
-        // Soinua botoia
         TableColumn<Animalia, Void> colSoinua = new TableColumn<>("Soinua");
         colSoinua.setSortable(false);
         colSoinua.setMinWidth(130);
@@ -198,7 +194,7 @@ public class MainView {
                 colPisua, colTxertatua, colAdoptatuta, colSoinua);
     }
 
-    // ============ Metodo publikoak (Controller-ak deituko ditu) ============
+    // ---------- Metodo publikoak ----------
     public void erakutsiMezua(String testua, boolean errorea) {
         mezua.setText(testua);
         mezua.setStyle(errorea ? "-fx-text-fill: red;" : "-fx-text-fill: green;");
@@ -209,7 +205,6 @@ public class MainView {
         txtAdina.clear();
         txtPisua.clear();
         txtOharrak.clear();
-        txtPasahitza.clear();
         cmbEspezia.setValue(null);
         chkTxertatua.setSelected(false);
     }
@@ -220,8 +215,7 @@ public class MainView {
         btnTxertatu.setText(a.isTxertatuta() ? "Kendu" : "Txertatu");
     }
 
-    // ============ Getters ============
-    public BorderPane getRoot() { return root; }
+    // ---------- Getters ----------
     public TableView<Animalia> getTaula() { return taula; }
     public ObservableList<Animalia> getAnimaliak() { return animaliak; }
 
@@ -232,7 +226,6 @@ public class MainView {
     public CheckBox getChkTxertatua() { return chkTxertatua; }
     public TextArea getTxtOharrak() { return txtOharrak; }
 
-    public Button getBtnZerrenda() { return btnZerrenda; }
     public Button getBtnBerria() { return btnBerria; }
     public Button getBtnTxertatu() { return btnTxertatu; }
     public Button getBtnEzabatu() { return btnEzabatu; }

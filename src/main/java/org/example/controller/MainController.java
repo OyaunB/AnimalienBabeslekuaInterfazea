@@ -3,6 +3,7 @@ package org.example.controller;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
+import org.example.SceneManager;
 import org.example.model.Animalia;
 import org.example.service.AnimaliaService;
 import org.example.view.AnimaliaXehetasuna;
@@ -14,11 +15,14 @@ public class MainController {
 
     private final MainView view;
     private final AnimaliaService service;
+    private final SceneManager sceneManager;
     private final Stage stage;
 
-    public MainController(MainView view, AnimaliaService service, Stage stage) {
+    public MainController(MainView view, AnimaliaService service,
+                          SceneManager sceneManager, Stage stage) {
         this.view = view;
         this.service = service;
+        this.sceneManager = sceneManager;
         this.stage = stage;
 
         kargatuAnimaliak();
@@ -37,7 +41,6 @@ public class MainController {
     // ---------- Botoien ekintzak ----------
     private void konektatuEkintzak() {
         view.getBtnIrten().setOnAction(e -> stage.close());
-        view.getBtnZerrenda().setOnAction(e -> view.getTaula().requestFocus());
 
         view.getBtnBerria().setOnAction(e -> adoptatu());
         view.getBtnTxertatu().setOnAction(e -> txertatu());

@@ -2,25 +2,22 @@ package org.example;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import org.example.controller.MainController;
-import org.example.service.AnimaliaService;
-import org.example.view.LoginView;
-import org.example.view.MainView;
 
 public class Programa extends Application {
 
     @Override
     public void start(Stage stage) {
-        LoginView.erakutsi(stage, () -> erakutsiPrintzipala(stage));
-    }
+        // 1. Crear una escena vacía que el SceneManager irá rellenando.
+        Scene scene = new Scene(new Pane(), 850, 760);
 
-    private void erakutsiPrintzipala(Stage stage) {
-        MainView view = new MainView();
-        new MainController(view, new AnimaliaService(), stage);
+        // 2. Inicializar el SceneManager.
+        new SceneManager(scene, stage);
 
+        // 3. Configurar y mostrar la ventana.
         stage.setTitle("Animalien Babeslekua");
-        stage.setScene(new Scene(view.getRoot(), 850, 760));
+        stage.setScene(scene);
         stage.sizeToScene();
         stage.centerOnScreen();
         stage.show();

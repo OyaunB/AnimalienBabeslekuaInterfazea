@@ -4,10 +4,15 @@ import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import org.example.SceneManager;
 
 public class LoginController {
 
@@ -20,19 +25,21 @@ public class LoginController {
     private final PasswordField txtPasahitza;
     private final ToggleGroup rolak;
     private final Label errorea;
-    private final Runnable sarreraZuzena;
+
+    // ---------- SceneManager ----------
+    private final SceneManager sceneManager;
 
     // ---------- Eraikitzailea ----------
     public LoginController(TextField txtErabiltzailea,
                            PasswordField txtPasahitza,
                            ToggleGroup rolak,
                            Label errorea,
-                           Runnable sarreraZuzena) {
+                           SceneManager sceneManager) {
         this.txtErabiltzailea = txtErabiltzailea;
         this.txtPasahitza = txtPasahitza;
         this.rolak = rolak;
         this.errorea = errorea;
-        this.sarreraZuzena = sarreraZuzena;
+        this.sceneManager = sceneManager;
     }
 
     // ---------- Ekintza nagusia ----------
@@ -71,7 +78,8 @@ public class LoginController {
         PauseTransition pausa = new PauseTransition(Duration.seconds(3));
         pausa.setOnFinished(ev -> {
             agurra.close();
-            sarreraZuzena.run();
+            // ALDAKETA: en lugar de sarreraZuzena.run(), usamos el SceneManager
+            sceneManager.showMainView();
         });
 
         agurra.show();

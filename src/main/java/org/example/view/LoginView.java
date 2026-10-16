@@ -2,17 +2,17 @@ package org.example.view;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
+import org.example.SceneManager;
 import org.example.controller.LoginController;
 
-public class LoginView {
+public class LoginView extends VBox {
 
-    public static void erakutsi(Stage stage, Runnable sarreraZuzena) {
+    public LoginView(SceneManager sceneManager) {
 
+        // ---------- Osagaiak ----------
         Label titulua = new Label("Animalien Babeslekua");
         Label mezua = new Label("Sartu admin, pasahitza:1234");
         titulua.setStyle("-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2e7d32;");
@@ -44,26 +44,25 @@ public class LoginView {
         Label errorea = new Label();
         errorea.setStyle("-fx-text-fill: red;");
 
+        // ---------- Controller-a (5 arg: UI + SceneManager) ----------
         LoginController controller = new LoginController(
-                txtErabiltzailea, txtPasahitza, rolak, errorea, sarreraZuzena);
+                txtErabiltzailea, txtPasahitza, rolak, errorea, sceneManager);
 
         btnSartu.setOnAction(e -> controller.sartu());
         txtPasahitza.setOnAction(e -> controller.sartu());
 
-        VBox root = new VBox(12, titulua, mezua, txtErabiltzailea, txtPasahitza,
+        // ---------- Diseinua ----------
+        this.setSpacing(12);
+        this.setAlignment(Pos.CENTER);
+        this.setPadding(new Insets(30));
+        this.getChildren().addAll(titulua, mezua, txtErabiltzailea, txtPasahitza,
                 rolBox, btnSartu, errorea);
-        root.setAlignment(Pos.CENTER);
-        root.setPadding(new Insets(30));
 
-        root.setStyle(
+        this.setStyle(
                 "-fx-background-image: url('/img/fondo.jpg');" +
                         "-fx-background-size: cover;" +
                         "-fx-background-position: center center;" +
                         "-fx-background-repeat: no-repeat;"
         );
-
-        stage.setTitle("Login");
-        stage.setScene(new Scene(root, 380, 320));
-        stage.show();
     }
 }
