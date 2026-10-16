@@ -1,12 +1,7 @@
-package org.example;
-
-import org.example.Klaseak.BesteBat;
-import org.example.Klaseak.Katua;
-import org.example.Klaseak.Txakurra;
-import org.example.Klaseak.Untxia;
+package org.example.model;
 
 public abstract class Animalia {
-
+    private int id;
     private final String izena;
     private int adina;
     private double pisua;
@@ -31,6 +26,7 @@ public abstract class Animalia {
     public abstract String getEspezia();
 
     // ---------- Getterrak ----------
+    public int getId() { return id; }
     public String getIzena() { return izena; }
     public int getAdina() { return adina; }
     public double getPisua() { return pisua; }
@@ -41,6 +37,7 @@ public abstract class Animalia {
     public String getArgazkia() { return argazkia; }
 
     // ---------- Setterrak ----------
+    public void setId(int id) { this.id = id; }
     public void setAdina(int adina) { this.adina = adina; }
     public void setPisua(double pisua) { this.pisua = pisua; }
     public void setTxertatuta(boolean txertatuta) { this.txertatuta = txertatuta; }

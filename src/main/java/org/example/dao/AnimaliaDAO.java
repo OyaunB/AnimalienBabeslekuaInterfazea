@@ -11,8 +11,9 @@ public class AnimaliaDAO {
     // ---------- READ ----------
     public List<Animalia> findAll() throws SQLException {
         List<Animalia> emaitza = new ArrayList<>();
-        String sql = "SELECT id, izena, espezia, adina, pisua, txertatuta, adoptatua, oharrak, argazkia FROM animaliak";
+        String sql = "SELECT id, izena, espezia, adina, pisua, txertatuta, adoptatuta, oharrak, argazkia FROM animaliak";
 
+        //__________________________
         try (Connection conn = Konexioa.konektatu();
              Statement st = conn.createStatement();
              ResultSet rs = st.executeQuery(sql)) {
@@ -26,7 +27,7 @@ public class AnimaliaDAO {
 
     // ---------- CREATE ----------
     public void insert(Animalia a) throws SQLException {
-        String sql = "INSERT INTO animaliak (izena, espezia, adina, pisua, txertatuta, adoptatua, oharrak, argazkia) "
+        String sql = "INSERT INTO animaliak (izena, espezia, adina, pisua, txertatuta, adoptatuta, oharrak, argazkia) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = Konexioa.konektatu();
@@ -55,7 +56,7 @@ public class AnimaliaDAO {
     // ---------- UPDATE ----------
     public void update(Animalia a) throws SQLException {
         String sql = "UPDATE animaliak SET izena=?, espezia=?, adina=?, pisua=?, "
-                + "txertatuta=?, adoptatua=?, oharrak=?, argazkia=? WHERE id=?";
+                + "txertatuta=?, adoptatuta=?, oharrak=?, argazkia=? WHERE id=?";
 
         try (Connection conn = Konexioa.konektatu();
              PreparedStatement ps = conn.prepareStatement(sql)) {

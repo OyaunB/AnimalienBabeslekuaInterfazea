@@ -1,6 +1,4 @@
-package org.example.Klaseak;
-
-import org.example.Animalia;
+package org.example.model;
 
 public class Untxia extends Animalia {
 

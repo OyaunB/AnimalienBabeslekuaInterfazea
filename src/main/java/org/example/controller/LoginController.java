@@ -1,4 +1,4 @@
-package org.example.Login;
+package org.example.controller;
 
 import javafx.animation.PauseTransition;
 import javafx.geometry.Insets;

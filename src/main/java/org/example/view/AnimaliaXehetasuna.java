@@ -1,5 +1,7 @@
-package org.example.AnimaliaXehetasunakLeioa;
+package org.example.view;
 
+import org.example.dao.AnimaliaDAO;
+import java.sql.SQLException;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -18,8 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import javafx.scene.layout.Priority;
-import org.example.Animalia;
-import org.example.FitxategiaCSV.AnimaliaFitxategia;
+import org.example.model.Animalia;
 
 public class AnimaliaXehetasuna {
 
@@ -35,6 +36,8 @@ public class AnimaliaXehetasuna {
 
         Stage stage = new Stage();
         stage.setTitle(animalia.getIzena() + " - " + animalia.getEspezia());
+
+        AnimaliaDAO dao = new AnimaliaDAO();
 
         // ---------- Irudia ----------
         ImageView irudiView = new ImageView();
@@ -103,20 +106,19 @@ public class AnimaliaXehetasuna {
                 animalia.setPisua(pisua);
                 animalia.setTxertatuta(chkTxertatua.isSelected());
                 animalia.setOharrak(txtOharrak.getText());
-                // ALDAKETA BERRIA: dopzio-egoera aldatzeko
                 if (animalia.isAdoptatuta() != chkAdoptatuta.isSelected()) {
                     animalia.aldatuAdopzioa();
                 }
 
-                AnimaliaFitxategia.gordeGuztiak(zerrenda);
+                dao.update(animalia);
                 eguneratu.run();
                 mezua.setText("Gordeta.");
                 mezua.setStyle("-fx-text-fill: green;");
             } catch (NumberFormatException ex) {
                 mezua.setText("Adinak eta pisuak zenbaki positiboak izan behar dute.");
                 mezua.setStyle("-fx-text-fill: red;");
-            } catch (IOException ex) {
-                mezua.setText("Errorea fitxategia gordetzean.");
+            } catch (SQLException ex) {
+                mezua.setText("Errorea datu-basean gordetzean.");
                 mezua.setStyle("-fx-text-fill: red;");
             }
         });
@@ -129,12 +131,12 @@ public class AnimaliaXehetasuna {
             galdera.setHeaderText(null);
             if (galdera.showAndWait().orElse(ButtonType.NO) != ButtonType.YES) return;
             try {
+                dao.delete(animalia.getId());
                 zerrenda.remove(animalia);
-                AnimaliaFitxategia.gordeGuztiak(zerrenda);
                 eguneratu.run();
                 stage.close();
-            } catch (IOException ex) {
-                mezua.setText("Errorea fitxategia eguneratzean.");
+            } catch (SQLException ex) {
+                mezua.setText("Errorea datu-basean ezabatzean.");
                 mezua.setStyle("-fx-text-fill: red;");
             }
         });
@@ -164,13 +166,14 @@ public class AnimaliaXehetasuna {
                 Files.copy(hautatua.toPath(), helburua, StandardCopyOption.REPLACE_EXISTING);
 
                 animalia.setArgazkia(helburua.toString().replace("\\", "/"));
-                AnimaliaFitxategia.gordeGuztiak(zerrenda);
+                dao.update(animalia);
                 kargatuIrudia(irudiView, placeholder, animalia.getArgazkia());
+
                 eguneratu.run();
                 mezua.setText("Irudia aldatuta.");
                 mezua.setStyle("-fx-text-fill: green;");
-            } catch (IOException ex) {
-                mezua.setText("Errorea irudia kopiatzean.");
+            } catch (IOException | SQLException ex) {
+                mezua.setText("Errorea irudia kopiatzean edo datu-basean eguneratzean.");
                 mezua.setStyle("-fx-text-fill: red;");
             }
         });
